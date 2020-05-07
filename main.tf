@@ -108,7 +108,7 @@ resource "aws_s3_bucket" "b" {
 }
 
 resource "aws_elb" "bar" {
-  name               = "foobar-terraform-elb"
+  name               = "foobar-terraform-elb-1"
   subnets            = [aws_subnet.pub-sub.id]
   listener {
     instance_port     = 80

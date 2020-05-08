@@ -1,6 +1,4 @@
-variable "aws-region" {
-   default= "ap-south-1"
-}
+variable "AWS_DEFAULT_REGION" { }
 
 variable "vpc-cidr" {
    default= "10.0.0.0/16"
@@ -18,7 +16,7 @@ variable "sub-cidrs" {
     default= "10.0.1.0/24"
 }
 
-variable "secret" { }
-variable "access" { }
+variable "AWS_ACCESS_KEY_ID" { }
+variable "AWS_SECRET_KEY_ID" { }
 
 

@@ -1,7 +1,7 @@
 provider "aws" {
-  region  = var.aws-region
-  access_key=var.access
-  secret_key=var.secret
+  region  = var.AWS_DEFAULT_RIGION
+  access_key=var.AWS_ACCESS_KEY_ID
+  secret_key=var.AWS_SECRET_KEY_ID
 }
 
 resource "aws_vpc" "prod-vpc" {

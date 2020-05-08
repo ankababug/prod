@@ -84,7 +84,7 @@ resource "aws_instance" "web1" {
   instance_type = "t2.micro"
   availability_zone= "ap-south-1a"
   key_name= aws_key_pair.deployer.id
-  subnet_id= aws_subnet.pub-sub.id
+  subnet_id= aws_subnet.pub-sub-2.id
   security_groups= ["sg-0630da8dcd34ba8a9"] 
   associate_public_ip_address= true
 
@@ -109,7 +109,7 @@ resource "aws_s3_bucket" "b" {
 
 resource "aws_elb" "bar" {
   name               = "foobar-terraform-elb-1"
-  subnets            = [aws_subnet.pub-sub.id]
+  subnets            = [aws_subnet.pub-sub-2.id]
   listener {
     instance_port     = 80
     instance_protocol = "http"
@@ -155,7 +155,7 @@ resource "aws_autoscaling_group" "bar" {
   force_delete              = true
   placement_group           = aws_placement_group.test.id
   launch_configuration      = data.aws_launch_configuration.ubuntu.name
-  vpc_zone_identifier       = [aws_subnet.pub-sub.id]
+  vpc_zone_identifier       = [aws_subnet.pub-sub-2.id]
 
   initial_lifecycle_hook {
     name                 = "foobar"

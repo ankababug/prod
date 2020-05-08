@@ -1,7 +1,7 @@
 provider "aws" {
-  region  = var.region
-  access_key=var.access_key
-  secret_key=var.secret_key
+  region  = var.AWS_DEFAULT_RIGION
+  access_key=var.AWS_ACCESS_KEY_ID
+  secret_key=var.AWS_SECRET_KEY_ID
 }
 
 resource "aws_vpc" "prod-vpc" {
@@ -154,7 +154,7 @@ resource "aws_autoscaling_group" "bar" {
   desired_capacity          = 4
   force_delete              = true
   placement_group           = aws_placement_group.test.id
-  launch_configuration      = aws_launch_configuration.ubuntu.name
+  launch_configuration      = data.aws_launch_configuration.ubuntu.name
   vpc_zone_identifier       = [aws_subnet.pub-sub.id]
 
   initial_lifecycle_hook {

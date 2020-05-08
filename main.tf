@@ -4,58 +4,58 @@ provider "aws" {
   secret_key=var.secret_key
 }
 
-resource "aws_vpc" "prod-vpc" {
+resource "aws_vpc" "pre-prod-vpc" {
   cidr_block       = var.vpc-cidr
   instance_tenancy = var.tenancy
   enable_dns_hostnames= true
 
   tags = {
-    Name = "prod-vpc"
+    Name = "pre-prod-vpc"
   }
 }
 
-resource "aws_internet_gateway" "prod-igw" {
-  vpc_id = aws_vpc.prod-vpc.id
+resource "aws_internet_gateway" "pre-prod-igw" {
+  vpc_id = aws_vpc.pre-prod-vpc.id
 
   tags = {
-    Name = "prod-igw"
+    Name = "pre-prod-igw"
   }
 }
 
-resource "aws_subnet" "pub-sub" {
-  vpc_id     = aws_vpc.prod-vpc.id
+resource "aws_subnet" "pub-sub-2" {
+  vpc_id     = aws_vpc.pre-prod-vpc.id
   cidr_block = var.sub-cidrs
   availability_zone= "ap-south-1a"
   map_public_ip_on_launch= true
   tags = {
-    Name = "pub-sub"
+    Name = "pub-sub-2"
   }
 }
 
-resource "aws_route_table" "pub-rt" {
-  vpc_id = aws_vpc.prod-vpc.id
+resource "aws_route_table" "pub-rt-1" {
+  vpc_id = aws_vpc.pre-prod-vpc.id
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.prod-igw.id
+    gateway_id = aws_internet_gateway.pre-prod-igw.id
   }
 
 
   tags = {
-    Name = "pub-rt"
+    Name = "pub-rt-1"
   }
 }
 
 resource "aws_route_table_association" "ass" {
-  subnet_id      = aws_subnet.pub-sub.id
-  route_table_id = aws_route_table.pub-rt.id
+  subnet_id      = aws_subnet.pub-sub-2.id
+  route_table_id = aws_route_table.pub-rt-1.id
 }
 
 
 resource "aws_security_group" "ssh-sg" {
-  name        = "ssh-sg"
+  name        = "ssh-sg-1"
   description = "Allow SSH inbound traffic"
-  vpc_id      = aws_vpc.prod-vpc.id
+  vpc_id      = aws_vpc.pre-prod-vpc.id
 
   ingress {
     # TLS (change to whatever ports you need)
@@ -89,11 +89,11 @@ resource "aws_instance" "web1" {
   associate_public_ip_address= true
 
   tags = {
-    Name = "HelloWorld"
+    Name = "HelloWorld-2"
   }
 }
 
-resource "random_id" "bucket" {
+/*resource "random_id" "bucket" {
     count = 2
     byte_length= 2
 }
@@ -105,7 +105,7 @@ resource "aws_s3_bucket" "b" {
   tags = {
     Name        = "bucket-${random_id.bucket.*.dec[0]}"
   }
-}
+}*/
 
 resource "aws_elb" "bar" {
   name               = "foobar-terraform-elb-1"

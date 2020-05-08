@@ -1,7 +1,7 @@
 variable "region" { }
 
 variable "vpc-cidr" {
-   default= "10.0.0.0/16"
+   default= "172.16.0.0/16"
 }
 
 variable "tenancy" {
@@ -13,7 +13,7 @@ variable "tenancy" {
 }*/
    
 variable "sub-cidrs" {
-    default= "10.0.1.0/24"
+    default= "172.16.1.0/24"
 }
 
 variable "access_key" { }

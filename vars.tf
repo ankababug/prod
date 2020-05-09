@@ -1,4 +1,6 @@
-variable "region" { }
+variable "region" { 
+   default= "ap-south-1"
+}
 
 variable "vpc-cidr" {
    default= "172.16.0.0/16"
